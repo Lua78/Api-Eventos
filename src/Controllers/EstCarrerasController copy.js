@@ -1,14 +1,23 @@
-const Data = require('../Data/dataDepartamentos');
-
+const Data = require('../Data/dataCarreraEst');
 
 
 const get = async (req,res) => {
     try {
-        const datos = await Data.get()
+        const carne = req.body.carne
+        const datos = await Data.get(carne)
         res.status(200).json({datos})
     } catch (error) {
-        console.log('Ha ocurrido un error, ', error)
-        res.status(500).json({error:error})
+        res.status(500).json({error})
+    }
+}
+
+const postCarrera = async (req,res) => {
+    try {
+        const carrera = req.body.data.carrera
+        const datos = await Data.getIdCarrera(carrera)
+        res.status(200).json({datos})
+    } catch (error) {
+        res.status(500).json({error})
     }
 }
 const post = async (req,res) => {
@@ -17,7 +26,6 @@ const post = async (req,res) => {
         const datos = await Data.add(data)
         res.status(200).json({datos})
     } catch (error) {
-        console.log('Ha ocurrido un error, ', req)
         res.status(500).json({error})
     }
 }
@@ -30,10 +38,9 @@ const update = async (req,res) => {
         res.status(500).json({error})
     }
 }
-
 const del = async (req,res) => {
     try {
-        const id = req.params.id
+        const data = req.params.id
         const datos = await Data.del(id)
         res.status(200).json({datos})
     } catch (error) {
@@ -43,7 +50,8 @@ const del = async (req,res) => {
 
 module.exports = {
     get,
+    postCarrera,
     post,
-    update,
-    del
+    del,
+    update
 }

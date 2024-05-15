@@ -1,5 +1,4 @@
-const Data = require('../Data/dataDepartamentos');
-
+const Data = require('../Data/dataCategoriaEventos');
 
 
 const get = async (req,res) => {
@@ -8,7 +7,7 @@ const get = async (req,res) => {
         res.status(200).json({datos})
     } catch (error) {
         console.log('Ha ocurrido un error, ', error)
-        res.status(500).json({error:error})
+        res.status(500).json({error})
     }
 }
 const post = async (req,res) => {
@@ -17,7 +16,6 @@ const post = async (req,res) => {
         const datos = await Data.add(data)
         res.status(200).json({datos})
     } catch (error) {
-        console.log('Ha ocurrido un error, ', req)
         res.status(500).json({error})
     }
 }

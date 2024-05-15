@@ -1,5 +1,4 @@
-const Data = require('../Data/dataDepartamentos');
-
+const Data = require('../Data/dataEventos');
 
 
 const get = async (req,res) => {
@@ -7,8 +6,18 @@ const get = async (req,res) => {
         const datos = await Data.get()
         res.status(200).json({datos})
     } catch (error) {
-        console.log('Ha ocurrido un error, ', error)
-        res.status(500).json({error:error})
+        console.log(error)
+        res.status(500).json({error})
+    }
+}
+
+const getId = async (req,res) => {
+    try {
+        const data = req.body.data
+        const datos = await Data.getId(data)
+        res.status(200).json({datos})
+    } catch (error) {
+        res.status(500).json({error})
     }
 }
 const post = async (req,res) => {
@@ -17,7 +26,6 @@ const post = async (req,res) => {
         const datos = await Data.add(data)
         res.status(200).json({datos})
     } catch (error) {
-        console.log('Ha ocurrido un error, ', req)
         res.status(500).json({error})
     }
 }
@@ -33,7 +41,7 @@ const update = async (req,res) => {
 
 const del = async (req,res) => {
     try {
-        const id = req.params.id
+        const data = req.params.id
         const datos = await Data.del(id)
         res.status(200).json({datos})
     } catch (error) {
@@ -43,6 +51,7 @@ const del = async (req,res) => {
 
 module.exports = {
     get,
+    getId,
     post,
     update,
     del
