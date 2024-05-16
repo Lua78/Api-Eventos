@@ -4,6 +4,9 @@ const app = express()
 const port = process.env.APP_PORT ?? 4000
 const router = require('./src/Routes/indexRouter.js')
 const authMiddleware = require('./src/Middlewares/Auth.js')
+const cors = require('cors')
+
+app.use(cors())
 
 app.use(express.json());
 
