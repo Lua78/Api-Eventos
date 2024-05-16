@@ -9,6 +9,16 @@ const get = async (req,res) => {
         res.status(500).json({error})
     }
 }
+const getId = async (req,res) => {
+    try {
+        const datos = await Data.get()
+        res.status(200).json({datos})
+    } catch (error) {
+        res.status(500).json({error})
+    }
+}
+
+
 const post = async (req,res) => {
     try {
         const data = req.body.data

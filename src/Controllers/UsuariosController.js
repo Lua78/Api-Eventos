@@ -1,5 +1,6 @@
 const encrypt = require('../utils/bcrypt');
 const Usuario = require('../Data/dataUsuarios');
+const Alumno = require('../Data/dataAlumnos');
 const JWT = require('../Services/AuthService')
 
 const login = async (req, res) => {
@@ -7,19 +8,29 @@ const login = async (req, res) => {
 
   try {
     const usuario = await Usuario.getUsuario(data.usuario);
+    console.log(usuario, data)
     if (!usuario) {
       return res.status(401).json({ error: 'Nombre de usuario o contraseña incorrectos' });
     }
-    const contraseniaValida = await encrypt.verificarContrasenia(data.contrasena, usuario.contrasena);
+    const contraseniaValida = await encrypt.verificarContrasenia(data.contrasena, usuario.CONTRASENA);
     if (!contraseniaValida) {
       return res.status(401).json({ error: 'Nombre de usuario o contraseña incorrectos' });
     }
+    let alumno = await Alumno.getId(usuario.CARNE_ALUMNO);
+    alumno = alumno[0][0]
+    console.log(alumno)
     const payload = {
-      nombre_usuario: usuario.nombre_usuario,
-      carne_alumno: usuario.carne_alumno,
-      is_admin: usuario.is_admin
+      nombre_usuario: usuario.NOMBRE_USUARIO,
+      carne_alumno: usuario.CARNE_ALUMNO,
+      is_admin: usuario.IS_ADMIN,
+      Nombre: alumno.Nombre,
+      direccion: alumno.direccion,
+      telefono: alumno.telefono,
+      FecNac: alumno.FecNac,
+      correo: alumno.correo
     };
-    const token = await JWT.generarToken(payload)
+    console.log(payload)
+    const token = JWT.generarToken(payload)
     res.json({ mensaje: 'Inicio de sesión exitoso', token: token });
   } catch (error) {
     console.error('Error al iniciar sesión:', error);

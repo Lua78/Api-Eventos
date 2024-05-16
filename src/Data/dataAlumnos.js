@@ -12,6 +12,14 @@ const get = async ()=>{
     const query = 'CALL sp_obtenerAlumnosActivos()';
     return await executeQuery(query);
 }
+
+const getId = async (carne)=>{
+    const query = 'CALL sp_obtenerAlumnoActivoPorCarne(?)';
+    const params = [carne];
+    return await executeQuery(query, params);
+}
+
+
 const update = async (data)=>{
     const query = 'CALL sp_actualizarAlumno(?,?,?,?,?,?)';
     const params = [data.carne, data.nombre, data.direccion, data.telefono, data.fecha_nacimiento, data.correo];
@@ -25,6 +33,7 @@ const del = async (id)=>{
 
 module.exports = {
     add,
+    getId,
     get,
     update,
     del

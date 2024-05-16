@@ -1,8 +1,13 @@
 const executeQuery = require('../config/DBConexion');
 
 const add = async (data)=>{
-    const params = [data.carne, data.usuario, data.contrasena, admin];
-    return await executeQuery(query, params);
+    try {
+        const query = 'CALL sp_crearUsuario(?,?,?,?)';
+        const params = [data.carne, data.usuario, data.contrasena, data.admin];
+        return await executeQuery(query, params);
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 const get = async ()=>{
@@ -15,8 +20,8 @@ const getUsuario = async (nombreUsuario) => {
         const query = 'CALL sp_buscarUsuarioPorNombre(?)';
         const params = [nombreUsuario];
         const usuarios = await executeQuery(query, params);
-        if (usuarios.length > 0) {
-            return usuarios[0];
+        if (usuarios[0].length > 0) {
+            return usuarios[0][0];
         } else {
             return undefined;
         }
