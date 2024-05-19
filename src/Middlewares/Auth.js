@@ -17,9 +17,7 @@ async function validateToken(req, res, next) {
     return;
   }
   try {
-    console.log(token)
     const data = JWT.verificarToken(token.split(' ')[1]);
-    console.log(data)
     if (data) {
       req.payload = data
       next();

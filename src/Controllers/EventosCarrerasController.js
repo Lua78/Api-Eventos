@@ -3,7 +3,7 @@ const Data = require('../Data/dataEventosCarreras');
 
 const get = async (req,res) => {
     try {
-        const data = req.body.data
+        const data = req.body
         const datos = await Data.get(data)
         res.status(200).json({datos, code:1})
     } catch (error) {
@@ -13,7 +13,7 @@ const get = async (req,res) => {
 
 const getId = async (req,res) => {
     try {
-        const data = req.body.data
+        const data = req.body
         const datos = await Data.getId(data)
         res.status(200).json({datos, code:1})
     } catch (error) {
@@ -22,7 +22,7 @@ const getId = async (req,res) => {
 }
 const post = async (req,res) => {
     try {
-        const data = req.body.data
+        const data = req.body
         const datos = await Data.add(data)
         res.status(200).json({datos, code:1})
     } catch (error) {

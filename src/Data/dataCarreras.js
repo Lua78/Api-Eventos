@@ -2,7 +2,7 @@ const executeQuery = require('../config/DBConexion');
 
 const add = async (data) => {
     const query = 'CALL sp_crearCarrera(?, ?)';
-    const params = [data.nombre, data.id_departamento];
+    const params = [data.Nombre, data.idDepartamento];
     return await executeQuery(query, params);
 };
 
@@ -13,7 +13,7 @@ const get = async () => {
 
 const update = async (data) => {
     const query = 'CALL sp_actualizarCarrera(?, ?, ?)';
-    const params = [data.id, data.nombre, data.id_departamento];
+    const params = [data.idCarrera, data.Nombre, data.idDepartamento];
     return await executeQuery(query, params);
 };
 

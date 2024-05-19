@@ -3,7 +3,7 @@ const Data = require('../Data/dataCarreraEst');
 
 const get = async (req,res) => {
     try {
-        const carne = req.body.carne
+        const carne = req.params.carne
         const datos = await Data.get(carne)
         res.status(200).json({datos, code:1})
     } catch (error) {
@@ -13,7 +13,7 @@ const get = async (req,res) => {
 
 const postCarrera = async (req,res) => {
     try {
-        const carrera = req.body.data.carrera
+        const carrera = req.body.carrera
         const datos = await Data.getIdCarrera(carrera)
         res.status(200).json({datos, code:1})
     } catch (error) {
@@ -22,7 +22,7 @@ const postCarrera = async (req,res) => {
 }
 const post = async (req,res) => {
     try {
-        const data = req.body.data
+        const data = req.body
         const datos = await Data.add(data)
         res.status(200).json({datos, code:1})
     } catch (error) {
@@ -31,7 +31,7 @@ const post = async (req,res) => {
 }
 const update = async (req,res) => {
     try {
-        const data = req.body.data
+        const data = req.body
         const datos = await Data.update(data)
         res.status(200).json({datos, code:1})
     } catch (error) {

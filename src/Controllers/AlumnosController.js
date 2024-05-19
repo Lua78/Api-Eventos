@@ -4,7 +4,6 @@ const Data = require('../Data/dataAlumnos');
 const get = async (req,res) => {
     try {
         const datos = await Data.get()
-        console.log("Los putos datos: ", datos)
         res.status(200).json({datos, code:1})
     } catch (error) {
         console.log(error)
@@ -23,7 +22,7 @@ const getId = async (req,res) => {
 
 const post = async (req,res) => {
     try {
-        const data = req.body.data
+        const data = req.body
         const datos = await Data.add(data)
         res.status(200).json({datos, code:1})
     } catch (error) {
@@ -32,10 +31,12 @@ const post = async (req,res) => {
 }
 const update = async (req,res) => {
     try {
-        const data = req.body.data
+        const data = req.body
         const datos = await Data.update(data)
+        console.log("Datos recibidos, ", datos, data)
         res.status(200).json({datos, code:1})
     } catch (error) {
+        console.log(error) 
         res.status(500).json({error})
     }
 }
@@ -44,7 +45,7 @@ const del = async (req,res) => {
     try {
         const id = req.params.id
         const datos = await Data.del(id)
-        res.status(200).json({dato, code:1})
+        res.status(200).json({datos, code:1})
     } catch (error) {
         res.status(500).json({error})
     }

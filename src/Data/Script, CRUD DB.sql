@@ -153,7 +153,9 @@ DELIMITER $$
 
 CREATE PROCEDURE sp_obtenerCarreras()
 BEGIN
-  SELECT * FROM Carrera WHERE Estado = 1;
+  SELECT carrera.idCarrera, carrera.Nombre, carrera.idDepartamento , Departamento.Nombre as Departamento
+  FROM Carrera inner join Departamento on Departamento.idDepartamento = Carrera.idDepartamento
+   WHERE carrera.Estado = 1;
 END$$
 
 DELIMITER ;
@@ -291,23 +293,26 @@ DELIMITER ;
 
 DELIMITER $$
 
-CREATE PROCEDURE sp_crearAlumno(IN _Carne VARCHAR(20), IN _Nombre VARCHAR(50), IN _direccion TEXT, IN _telefono VARCHAR(12), IN _FecNac DATE, IN _correo VARCHAR(50))
+CREATE PROCEDURE sp_crearAlumno(IN _Carne VARCHAR(20), IN _Nombre VARCHAR(50), IN _direccion TEXT, IN _telefono VARCHAR(12), IN _FecNac DATE, IN _correo VARCHAR(50),IN _idCarrera INT,  IN _anioIngreso INT)
 BEGIN
   INSERT INTO Alumno (Carne, Nombre, direccion, telefono, FecNac, correo) VALUES (_Carne, _Nombre, _direccion, _telefono, _FecNac, _correo);
+  INSERT INTO carreraest (Carne, idCarrera, anioIngreso) VALUES (_Carne, _idCarerra, _anioIngreso);
 END$$
-
 DELIMITER ;
+
 
 DELIMITER $$
 
 CREATE PROCEDURE sp_obtenerAlumnosActivos()
 BEGIN
-  SELECT * FROM Alumno WHERE Estado = 1;
+  SELECT Alumno.Carne, Alumno.Nombre, Alumno.direccion, Alumno.telefono, Alumno.FecNac, Alumno.correo, carreraest.idCarrera, carrera.Nombre as nombreCarrera, carreraest.anioIngreso
+   FROM Alumno left join  carreraest on carreraest.carne = Alumno.carne inner join carrera on carrera.idCarrera = carreraest.idCarrera
+   WHERE Alumno.Estado = 1;
 END$$
 
 DELIMITER ;
 
-DELIMITER $$
+
 
 CREATE PROCEDURE sp_obtenerAlumnoActivoPorCarne(IN _Carne VARCHAR(20))
 BEGIN
@@ -318,11 +323,12 @@ DELIMITER ;
 
 DELIMITER $$
 
-CREATE PROCEDURE sp_actualizarAlumno(IN _Carne VARCHAR(20), IN _Nombre VARCHAR(50), IN _direccion TEXT, IN _telefono VARCHAR(12), IN _FecNac DATE, IN _correo VARCHAR(50))
+CREATE PROCEDURE sp_actualizarAlumno(IN _Carne VARCHAR(20), IN _Nombre VARCHAR(50), IN _direccion TEXT, IN _telefono VARCHAR(12), IN _FecNac DATE, IN _correo VARCHAR(50),IN _idCarrera INT,  IN anioIngreso INT)
 BEGIN
   UPDATE Alumno
   SET Nombre = _Nombre, direccion = _direccion, telefono = _telefono, FecNac = _FecNac, correo = _correo
   WHERE Carne = _Carne;
+  UPDATE carreraest set  idCarrera = _idCarrera, anioIngreso =  _anioIngreso
 END$$
 
 DELIMITER ;
@@ -466,11 +472,17 @@ END$$
 DELIMITER ;
 
 
+
 DELIMITER $$
 
 CREATE PROCEDURE sp_obtenerUsuarios()
 BEGIN
-  SELECT * FROM usuario WHERE Estado = 1;
+  SELECT 
+  usuario.CARNE_ALUMNO as Carne, alumno.Nombre as Nombre, usuario.NOMBRE_USUARIO as "Nombre de Usuario", usuario.IS_ADMIN as Admin
+  
+  FROM usuario inner join alumno 
+  on alumno.carne = usuario.CARNE_ALUMNO
+  WHERE usuario.Estado = 1 and alumno.estado = 1;
 END$$
 DELIMITER ;
 

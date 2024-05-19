@@ -5,7 +5,14 @@ const conexion = {
     database : process.env.DB_NAME,
     host: process.env.DB_URL,
     user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD
+    password: process.env.DB_PASSWORD,
+    typeCast: function (field, next) {
+        if (field.type === 'BIT' && field.length === 1) {
+          const buffer = field.buffer();
+          return buffer[0] === 1 ? 1 : 0;
+        }
+        return next();
+    }
 }
 const executeQuery = async (query, params = []) => {
     const conn = await mysql.createConnection(conexion);

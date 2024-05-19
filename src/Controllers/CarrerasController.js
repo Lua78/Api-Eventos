@@ -12,7 +12,7 @@ const get = async (req,res) => {
 
 const post = async (req,res) => {
     try {
-        const data = req.body.data
+        const data = req.body
         const datos = await Data.add(data)
         res.status(200).json({datos, code:1})
     } catch (error) {
@@ -21,7 +21,7 @@ const post = async (req,res) => {
 }
 const update = async (req,res) => {
     try {
-        const data = req.body.data
+        const data = req.body
         const datos = await Data.update(data)
         res.status(200).json({datos, code:1})
     } catch (error) {

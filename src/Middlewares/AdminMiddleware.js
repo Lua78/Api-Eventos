@@ -1,6 +1,6 @@
 
 function isAdmin(req, res, next) {
-    if (req.payload && req.payload.is_admin.data == 1) {
+    if (req.payload && req.payload.is_admin == 1) {
         console.log("Autorizado")
         next();
     } else {

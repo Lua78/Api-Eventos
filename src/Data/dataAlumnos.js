@@ -2,9 +2,9 @@ const executeQuery = require('../config/DBConexion');
 
 
 const add = async (data)=>{
-    const query = 'CALL sp_crearAlumno(?,?,?,?,?,?)';
+    const query = 'CALL sp_crearAlumno(?,?,?,?,?,?,?,?)';
     console.log(data)
-    const params = [data.carne, data.nombre, data.direccion, data.telefono, data.fecha_nacimiento, data.correo];
+    const params = [data.Carne, data.Nombre, data.direccion, data.telefono, data.FecNac, data.correo,  data.idCarrera, data.anioIngreso];
     return await executeQuery(query, params);
 }
 
@@ -21,8 +21,8 @@ const getId = async (carne)=>{
 
 
 const update = async (data)=>{
-    const query = 'CALL sp_actualizarAlumno(?,?,?,?,?,?)';
-    const params = [data.carne, data.nombre, data.direccion, data.telefono, data.fecha_nacimiento, data.correo];
+    const query = 'CALL sp_actualizarAlumno(?,?,?,?,?,?,?,?)';
+    const params = [data.Carne, data.Nombre, data.direccion, data.telefono, data.FecNac, data.correo,  data.idCarrera, data.anioIngreso];
     return await executeQuery(query, params);
 }
 const del = async (id)=>{
