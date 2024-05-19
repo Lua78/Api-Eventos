@@ -10,7 +10,8 @@ const conexion = {
 const executeQuery = async (query, params = []) => {
     const conn = await mysql.createConnection(conexion);
     try {
-        const [rows, fields] = await conn.execute(query, params);
+        const parametrosDefinidos = params.map(param => param !== undefined ? param : null);
+        const [rows, fields] = await conn.execute(query, parametrosDefinidos);
         return rows;
     } catch (error) {
         console.log(error)
