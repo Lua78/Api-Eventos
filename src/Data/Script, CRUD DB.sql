@@ -22,8 +22,8 @@ CREATE TABLE Carrera (
 );
 
 CREATE TABLE Categoria_evento(
-id_categoria INT NOT NULL AUTO_INCREMENT,
-nombre VARCHAR(200) NOT NULL,
+idCategoria INT NOT NULL AUTO_INCREMENT,
+Nombre VARCHAR(200) NOT NULL,
 Estado BIT default 1,
 PRIMARY KEY (id_categoria)
 );
@@ -193,7 +193,7 @@ DELIMITER $$
 
 CREATE PROCEDURE sp_crearEvento(IN _Titulo VARCHAR(200), IN _Descripcion TEXT, IN _fechainicio DATE, IN _FechaFin DATE, IN id_categoria INT, IN imagen LONGBLOB)
 BEGIN
-  INSERT INTO Evento (Titulo, Descripcion, fechainicio, FechaFin,id_categoria, imagen) VALUES (_Titulo, _Descripcion, _fechainicio, _FechaFin, id_categoria, imagen);
+  INSERT INTO Evento (Titulo, Descripcion, fechainicio, FechaFin,idCategoria, imagen) VALUES (_Titulo, _Descripcion, _fechainicio, _FechaFin, id_categoria, imagen);
 END$$
 
 DELIMITER ;
@@ -221,7 +221,7 @@ DELIMITER $$
 CREATE PROCEDURE sp_actualizarEvento(IN _idEvento INT, IN _Titulo VARCHAR(200), IN _Descripcion TEXT, IN _fechainicio DATE, IN _FechaFin DATE, IN _id_categoria INT, IN _imagen LONGBLOB)
 BEGIN
   UPDATE Evento
-  SET Titulo = _Titulo, Descripcion = _Descripcion, fechainicio = _fechainicio, FechaFin = _FechaFin, imagen = _imagen, id_categoria = _id_categoria
+  SET Titulo = _Titulo, Descripcion = _Descripcion, fechainicio = _fechainicio, FechaFin = _FechaFin, imagen = _imagen, idCategoria = _id_categoria
   WHERE idEvento = _idEvento;
 END$$
 
@@ -470,6 +470,28 @@ BEGIN
   SELECT * FROM Categoria_evento WHERE Estado = 1;
 END$$
 DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE PROCEDURE sp_actualizarcategoria(IN _idCategoria INT, IN _Nombre VARCHAR(50))
+BEGIN
+  UPDATE Categoria_evento
+  SET Nombre = _Nombre
+  WHERE idCategoria = _idCategoria;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE sp_eliminarCategoriaLogico(IN _idCategoria INT)
+BEGIN
+  UPDATE Categoria_evento SET Estado = 0 WHERE idCategoria = _idCategoria;
+END$$
+
+DELIMITER ;
+
 
 
 

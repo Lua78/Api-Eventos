@@ -2,7 +2,7 @@ const executeQuery = require('../config/DBConexion');
 
 const add = async (data)=>{
     const query = 'CALL sp_crearEvento(?,?,?,?,?,?)';
-    const params = [data.titulo, data.descripcion, data.fecha_inicio, data.fecha_fin, data.id_categoria, data.imagen];
+    const params = [data.Titulo, data.Descripcion, data.fechainicio, data.FechaFin, data.idCategoria, data.imagen];
     return await executeQuery(query, params);
 }
 
@@ -17,8 +17,8 @@ const getId = async (id)=>{
     return await executeQuery(query, params);
 }
 const update = async (data)=>{
-    const query = 'sp_actualizarEvento(?,?,?,?,?,?,?)';
-    const params = [data.id, data.titulo, data,descripcion, data.fecha_inicio, data.fecha_fin, data.id_categoria, data.imagen];
+    const query = 'CALL sp_actualizarEvento(?,?,?,?,?,?,?)';
+    const params = [data.idEvento, data.Titulo, data.Descripcion, data.fechainicio, data.FechaFin, data.idCategoria, data.imagen];
     return await executeQuery(query, params);
 }
 const del = async (id)=>{

@@ -3,7 +3,7 @@ const executeQuery = require('../config/DBConexion')
 
 const add = async (data) => {
     const query = 'CALL sp_crearCategoria(?)';
-    const params = [data.nombre];
+    const params = [data.Nombre];
     return await executeQuery(query, params);
 }
 
@@ -14,7 +14,7 @@ const get = async () => {
 
 const update = async (data) => {
     const query = 'CALL sp_actualizarcategoria(?,?)';
-    const params = [data.id, data.nombre];
+    const params = [data.idCategoria, data.Nombre];
     return await executeQuery(query, params);
 }
 const del = async (id) => {

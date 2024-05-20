@@ -23,6 +23,7 @@ const getId = async (req,res) => {
 const post = async (req,res) => {
     try {
         const data = req.body
+        console.log("La data: ", data)
         const datos = await Data.add(data)
         res.status(200).json({datos, code:1})
     } catch (error) {
@@ -35,16 +36,18 @@ const update = async (req,res) => {
         const datos = await Data.update(data)
         res.status(200).json({datos, code:1})
     } catch (error) {
+        console.log(error)
         res.status(500).json({error})
     }
 }
 
 const del = async (req,res) => {
     try {
-        const data = req.params.id
+        const id = req.params.id
         const datos = await Data.del(id)
         res.status(200).json({datos, code:1})
     } catch (error) {
+        console.log(error)
         res.status(500).json({error})
     }
 }

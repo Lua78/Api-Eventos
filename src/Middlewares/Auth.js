@@ -28,7 +28,7 @@ async function validateToken(req, res, next) {
     }
   } catch (error) {
     console.error('Error al validar el token:', error.message);
-    res.status(500).json({ error: 'No tienes acceso a esta ruta.' });
+    res.status(500).json({ error: 'error interno.' });
   }
 }
 

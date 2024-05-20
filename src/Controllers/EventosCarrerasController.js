@@ -14,7 +14,9 @@ const get = async (req,res) => {
 const getId = async (req,res) => {
     try {
         const data = req.body
+        console.log("La data: ", data)
         const datos = await Data.getId(data)
+    
         res.status(200).json({datos, code:1})
     } catch (error) {
         res.status(500).json({error})
