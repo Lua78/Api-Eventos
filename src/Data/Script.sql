@@ -43,7 +43,7 @@ CREATE TABLE Evento (
 );
 
 -- Tabla Evento_camera
-CREATE TABLE Evento_carrera (
+CREATE TABLE Evento_Carrera (
   idEvento INT NOT NULL,
   idCarrera INT NOT NULL,
   Estado BIT default 1,
@@ -153,9 +153,9 @@ DELIMITER $$
 
 CREATE PROCEDURE sp_obtenerCarreras()
 BEGIN
-  SELECT carrera.idCarrera, carrera.Nombre, carrera.idDepartamento , Departamento.Nombre as Departamento
+  SELECT Carrera.idCarrera, Carrera.Nombre, Carrera.idDepartamento , Departamento.Nombre as Departamento
   FROM Carrera inner join Departamento on Departamento.idDepartamento = Carrera.idDepartamento
-   WHERE carrera.Estado = 1;
+   WHERE Carrera.Estado = 1;
 END$$
 
 DELIMITER ;
@@ -240,7 +240,7 @@ DELIMITER $$
 
 CREATE PROCEDURE sp_crearRelacionEventoCarrera(IN _idEvento INT, IN _idCarrera INT)
 BEGIN
-  INSERT INTO Evento_carrera (idEvento, idCarrera) VALUES (_idEvento, _idCarrera);
+  INSERT INTO Evento_Carrera (idEvento, idCarrera) VALUES (_idEvento, _idCarrera);
 END$$
 
 DELIMITER ;
@@ -249,7 +249,7 @@ DELIMITER $$
 
 CREATE PROCEDURE sp_obtenerRelacionesActivasEventoCarrera()
 BEGIN
-  SELECT * FROM Evento_carrera WHERE Estado = 1;
+  SELECT * FROM Evento_Carrera WHERE Estado = 1;
 END$$
 
 DELIMITER ;
@@ -258,7 +258,7 @@ DELIMITER $$
 
 CREATE PROCEDURE sp_obtenerRelacionesActivasEventoCarreraPorEvento(IN _idEvento INT)
 BEGIN
-  SELECT * FROM Evento_carrera WHERE idEvento = _idEvento AND Estado = 1;
+  SELECT * FROM Evento_Carrera WHERE idEvento = _idEvento AND Estado = 1;
 END$$
 
 DELIMITER ;
@@ -267,7 +267,7 @@ DELIMITER $$
 
 CREATE PROCEDURE sp_eliminarRelacionEventoCarreraLogico(IN _idEvento INT, IN _idCarrera INT)
 BEGIN
-  UPDATE Evento_carrera SET Estado = 0 WHERE idEvento = _idEvento AND idCarrera = _idCarrera;
+  UPDATE Evento_Carrera SET Estado = 0 WHERE idEvento = _idEvento AND idCarrera = _idCarrera;
 END$$
 
 DELIMITER ;
@@ -276,7 +276,7 @@ DELIMITER $$
 
 CREATE PROCEDURE sp_obtenerRelacionesActivasEventoCarreraPorCarrera(IN _idCarrera INT)
 BEGIN
-  SELECT * FROM Evento_carrera WHERE idCarrera = _idCarrera AND Estado = 1;
+  SELECT * FROM Evento_Carrera WHERE idCarrera = _idCarrera AND Estado = 1;
 END$$
 
 DELIMITER ;
@@ -286,7 +286,7 @@ DELIMITER $$
 
 CREATE PROCEDURE sp_borrarRelacionesActivasEventoCarreraPorEvento(IN _idEvento INT)
 BEGIN
-  UPDATE Evento_carrera SET Estado = 0 WHERE idEvento = _idEvento;
+  UPDATE Evento_Carrera SET Estado = 0 WHERE idEvento = _idEvento;
 END$$
 
 DELIMITER ;
@@ -296,7 +296,7 @@ DELIMITER $$
 CREATE PROCEDURE sp_crearAlumno(IN _Carne VARCHAR(20), IN _Nombre VARCHAR(50), IN _direccion TEXT, IN _telefono VARCHAR(12), IN _FecNac DATE, IN _correo VARCHAR(50),IN _idCarrera INT,  IN _anioIngreso INT)
 BEGIN
   INSERT INTO Alumno (Carne, Nombre, direccion, telefono, FecNac, correo) VALUES (_Carne, _Nombre, _direccion, _telefono, _FecNac, _correo);
-  INSERT INTO carreraest (Carne, idCarrera, anioIngreso) VALUES (_Carne, _idCarerra, _anioIngreso);
+  INSERT INTO CarreraEst (Carne, idCarrera, anioIngreso) VALUES (_Carne, _idCarrera, _anioIngreso);
 END$$
 DELIMITER ;
 
@@ -305,8 +305,8 @@ DELIMITER $$
 
 CREATE PROCEDURE sp_obtenerAlumnosActivos()
 BEGIN
-  SELECT Alumno.Carne, Alumno.Nombre, Alumno.direccion, Alumno.telefono, Alumno.FecNac, Alumno.correo, carreraest.idCarrera, carrera.Nombre as nombreCarrera, carreraest.anioIngreso
-   FROM Alumno left join  carreraest on carreraest.carne = Alumno.carne inner join carrera on carrera.idCarrera = carreraest.idCarrera
+  SELECT Alumno.Carne, Alumno.Nombre, Alumno.direccion, Alumno.telefono, Alumno.FecNac, Alumno.correo, CarreraEst.idCarrera, Carrera.Nombre as nombreCarrera, CarreraEst.anioIngreso
+   FROM Alumno left join  CarreraEst on CarreraEst.carne = Alumno.carne inner join Carrera on Carrera.idCarrera = CarreraEst.idCarrera
    WHERE Alumno.Estado = 1;
 END$$
 
@@ -329,7 +329,7 @@ BEGIN
   UPDATE Alumno
   SET Nombre = _Nombre, direccion = _direccion, telefono = _telefono, FecNac = _FecNac, correo = _correo
   WHERE Carne = _Carne;
-  UPDATE carreraest set  idCarrera = _idCarrera, anioIngreso =  _anioIngreso;
+  UPDATE CarreraEst set  idCarrera = _idCarrera, anioIngreso =  _anioIngreso;
 END$$
 
 DELIMITER ;
@@ -428,9 +428,9 @@ DELIMITER ;
 
 DELIMITER $$
 
-CREATE PROCEDURE sp_obtenerRelacionesActivasCarreraEstudiantesPorCarrea(IN _carrera VARCHAR(20))
+CREATE PROCEDURE sp_obtenerRelacionesActivasCarreraEstudiantesPorCarrea(IN _Carrera VARCHAR(20))
 BEGIN
-  SELECT * FROM CarreraEst WHERE idCarrera = _carrera AND Estado = 1;
+  SELECT * FROM CarreraEst WHERE idCarrera = _Carrera AND Estado = 1;
 END$$
 
 DELIMITER ;
@@ -502,24 +502,24 @@ DELIMITER $$
 CREATE PROCEDURE sp_obtenerUsuarios()
 BEGIN
   SELECT 
-  usuario.CARNE_ALUMNO as Carne, alumno.Nombre as Nombre, usuario.NOMBRE_USUARIO as "Nombre de Usuario", usuario.IS_ADMIN as Admin
+  USUARIO.CARNE_ALUMNO as Carne, Alumno.Nombre as Nombre, USUARIO.NOMBRE_USUARIO as "Nombre de USUARIO", USUARIO.IS_ADMIN as Admin
   
-  FROM usuario inner join alumno 
-  on alumno.carne = usuario.CARNE_ALUMNO
-  WHERE usuario.Estado = 1 and alumno.estado = 1;
+  FROM USUARIO inner join Alumno 
+  on Alumno.carne = USUARIO.CARNE_ALUMNO
+  WHERE USUARIO.Estado = 1 and Alumno.estado = 1;
 END$$
 DELIMITER ;
 
 DELIMITER $$
 CREATE PROCEDURE sp_crearUsuario(
     IN p_carne_alumno VARCHAR(20),
-    IN p_nombre_usuario VARCHAR(50),
+    IN p_nombre_Usuario VARCHAR(50),
     IN p_contrasena VARCHAR(1000),
     IN p_is_admin BIT
 )
 BEGIN
     INSERT INTO USUARIO (CARNE_ALUMNO, NOMBRE_USUARIO, CONTRASENA, IS_ADMIN)
-    VALUES (p_carne_alumno, p_nombre_usuario, p_contrasena, p_is_admin);
+    VALUES (p_carne_alumno, p_nombre_Usuario, p_contrasena, p_is_admin);
 END$$
 DELIMITER ;
 
@@ -536,11 +536,11 @@ DELIMITER ;
 
 DELIMITER $$
 CREATE PROCEDURE sp_buscarUsuarioPorNombre(
-    IN p_nombre_usuario VARCHAR(50)
+    IN p_nombre_Usuario VARCHAR(50)
 )
 BEGIN
     SELECT * FROM USUARIO
-    WHERE NOMBRE_USUARIO = p_nombre_usuario;
+    WHERE NOMBRE_USUARIO = p_nombre_Usuario;
 END$$
 DELIMITER ;
 
@@ -557,13 +557,13 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE sp_modificarUsuario(
     IN p_carne_alumno VARCHAR(20),
-    IN p_nombre_usuario VARCHAR(50),
+    IN p_nombre_Usuario VARCHAR(50),
     IN p_contrasena VARCHAR(1000),
     IN p_is_admin BIT
 )
 BEGIN
     UPDATE USUARIO
-    SET NOMBRE_USUARIO = p_nombre_usuario,
+    SET NOMBRE_USUARIO = p_nombre_Usuario,
         CONTRASENA = p_contrasena,
         IS_ADMIN = p_is_admin
     WHERE CARNE_ALUMNO = p_carne_alumno;

@@ -42,7 +42,8 @@ const login = async (req, res) => {
 
 const get = async (req,res) => {
   try {
-      const datos = await Usuario.get()
+      let datos = await Usuario.get()
+      datos = datos[0]
       console.log(datos[0])
       res.status(200).json({datos, code:1})
   } catch (error) {

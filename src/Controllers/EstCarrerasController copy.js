@@ -4,7 +4,8 @@ const Data = require('../Data/dataCarreraEst');
 const get = async (req,res) => {
     try {
         const carne = req.params.carne
-        const datos = await Data.get(carne)
+        let datos = await Data.get(carne)
+        datos = datos[0]
         res.status(200).json({datos, code:1})
     } catch (error) {
         res.status(500).json({error})

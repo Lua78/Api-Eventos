@@ -4,7 +4,8 @@ const Data = require('../Data/dataDepartamentos');
 
 const get = async (req,res) => {
     try {
-        const datos = await Data.get()
+        let datos = await Data.get()
+        datos = datos[0]
         res.status(200).json({datos, code:1})
     } catch (error) {
         console.log('Ha ocurrido un error, ', error)
